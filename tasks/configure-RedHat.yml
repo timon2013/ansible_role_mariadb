@@ -1,0 +1,10 @@
+---
+- name: "Ensure MariaDB is started and enabled at boot."
+  systemd:
+    name: mysqld
+    state: started
+    enabled: yes
+
+- include_tasks: secure-instalation.yml
+  tags: 
+    - secure

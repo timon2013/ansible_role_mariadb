@@ -1,0 +1,37 @@
+---
+#- name: Get url
+#  get_url: 
+#    url: https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+#    dest: /tmp/mariadb_repo_setup.sh
+
+- name: Download foo.conf
+  get_url:
+    url: https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+    dest: /tmp/mariadb_repo_setup.sh
+    mode: '0700'
+
+- name: Script to configure the MariaDB repositories for YUM
+  #shell: bash /tmp/mariadb_repo_setup.sh
+  #script: https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
+  #script: mariadb_repo_setup.sh
+  shell: bash /tmp/mariadb_repo_setup.sh
+
+- name: Install tools and libraries
+  dnf:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ redhat_packages }}"
+
+- name: Pip install
+  pip:
+    name: PyMySQL
+    state: present
+
+- name: Install mariadb
+  dnf:
+    name: "{{ item }}"
+    state: present
+    enablerepo: mariadb-main
+  loop: "{{ redhat_mariadb_package }}"
+
+

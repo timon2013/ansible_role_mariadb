@@ -1,0 +1,23 @@
+---
+
+  - name: Update password for root user.
+    shell: mysql -u root -NBe 'set password = password("{{ mysqld_root_password }}");' --connect-expired-password
+    no_log: True
+    tags:
+      - secure
+
+  - name: Remove anonymous MySQL users
+    mysql_user:
+      name: ""
+      host_all: true
+      state: absent
+    ignore_errors: yes
+#      login_user: "{{ mysqld_root_username }}"
+#      login_password: "{{ mysqld_root_password }}"
+  - name: Remove MySQL test database
+    mysql_db:
+      name: test
+      state: absent
+    ignore_errors: yes
+#      login_user: "{{ mysqld_root_username }}"
+#      login_password: "{{ mysqld_root_password }}"

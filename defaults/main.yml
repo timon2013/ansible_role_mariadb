@@ -1,0 +1,11 @@
+---
+# defaults file for ansible_role_mariadb
+redhat_packages:
+  - perl-DBI
+  - libaio
+  - libsepol
+  - lsof
+  - boost-program-options
+  - python3-pip
+redhat_mariadb_package:
+  - MariaDB-server
